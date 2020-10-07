@@ -3,23 +3,23 @@ import { expect } from 'chai';
 import { add, NegativeError } from './main';
 
 describe('String Calculation', () => {
-    it('Empty string should return 0', () => {
+    it('1. Empty string should return 0', () => {
         const result = add("");
         expect(result).equal(0);
     });
-    it('Input 1,2 should return 3', () => {
+    it('2. 1,2 should return 3', () => {
         const result = add("1,2");
         expect(result).equal(3);
     });
-    it('Input 1\\n2,3 should return 6', () => {
+    it('3. 1\\n2,3 should return 6', () => {
         const result = add("1\n2,3");
         expect(result).equal(6);
     });
-    it('Input //;\\n1,2;3 should return 6', () => {
+    it('4. //;\\n1,2;3 should return 6', () => {
         const result = add("//;\n1,2;3");
         expect(result).equal(6);
     });
-    it('Input -1,-2 should throw errors', () => {
+    it('5. -1,-2 should throw errors', () => {
         try {
             add('-1,-2')
         } catch(e) {
@@ -28,16 +28,16 @@ describe('String Calculation', () => {
         }
         throw 'Exception not throw';
     });
-    it('Should ignore value larger than 1000', () => {
+    it('6. gnore value larger than 1000', () => {
         expect(add('2,1001')).equal(2);
     });
-    it('Input //***\\n1***2***3 should return 6', () => {
+    it('7. //***\\n1***2***3 should return 6', () => {
         expect(add("//***\n1***2***3")).equal(6);
     });
-    it('Input //[*][%]\\n1*2%3 should return 6', () => {
+    it('8. //[*][%]\\n1*2%3 should return 6', () => {
         expect(add("//[*][%]\n1*2%3")).equal(6);
     });
-    it('Input //[***][%%%]\\n1***2%%%3 should return 6', () => {
+    it('9. //[***][%%%]\\n1***2%%%3 should return 6', () => {
         expect(add("//[***][%%%]\n1***2%%%3")).equal(6);
     });
 });

@@ -1,26 +1,19 @@
 export class NegativeError extends Error {}
 
-export function getDelimiter(numbers: string): string {
-    const delimiterRegex = /^(\/\/)(.+)\n/;
-    if (delimiterRegex.test(numbers)) {
-        const delimiters = numbers.split(delimiterRegex)[2];
-        return delimiters.split(/[\[\]]+/).join(',')
-    }
-    return null;
-}
-
 export function add(numbers: string): number {
     if (!numbers || numbers === '') { return 0; }
-
-    const delimiter = getDelimiter(numbers);
-    const newNumbers = delimiter !== null ? numbers.substring(3, numbers.length) : numbers;
+    // Test if provided number has custom delimiter
+    const hasCustomDelimiter = /^(\/\/)(.+)\n/;
+    const delimiter = hasCustomDelimiter.test(numbers) ? numbers.split(hasCustomDelimiter)[2].split(/[\[\]]+/).join(',') : null;
+    // Split into array of number values
     const splitRegex = new RegExp('[\n,' + delimiter + ']+');
-    const splitted = newNumbers.split(splitRegex);
-    const values = splitted.map(value => Number(value)).filter(val => val <= 1000);
-    const negativeValues = values.filter(val => val < 0);
-    if (negativeValues.length > 0) {
-        const msg = 'Negative values: ' + negativeValues.join(',') + ' not allowed';
-        throw new NegativeError(msg);
+    const values = numbers.split(splitRegex);
+    // Only get value larger than less or equal to 1000
+    const validValues = values.map(value => Number(value)).filter(val => val <= 1000);
+    // Check if there are value larger than 1000
+    const invalidValues = validValues.filter(val => val < 0);
+    if (invalidValues.length > 0) {
+        throw new NegativeError('Negative values: ' + invalidValues.join(',') + ' not allowed');
     }
-    return values.reduce((a, b) => a + b);
+    return validValues.reduce((a, b) => a + b);
 }
