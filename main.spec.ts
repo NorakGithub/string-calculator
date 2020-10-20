@@ -15,6 +15,9 @@ describe('String Calculation', () => {
         const result = add("1\n2,3");
         expect(result).equal(6);
     });
+    it('Should print 15 when provide //\n\n5\n5\n5', () => {
+        expect(add('//\n\n5\n5\n5')).equal(15);
+    });
     it('4. //;\\n1,2;3 should return 6', () => {
         const result = add("//;\n1,2;3");
         expect(result).equal(6);
